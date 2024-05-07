@@ -1,0 +1,36 @@
+root = "."
+testdata_dir = "testdata"
+tmp_dir = "tmp"
+
+[build]
+  bin = "./tmp/mqshop" # ！！！注意在window下此配置是 ./tmp/skeleton.exe 不然可能导致router路由不加载 业务接口请求失效
+  cmd = "go build -o ./tmp/mqshop ./cmd/app" # ！！！注意在window下此配置是 go build -o ./tmp/skeleton.exe ./cmd/app
+  delay = 1000
+  exclude_dir = ["assets", "tmp", "vendor", "testdata", "runtime", "upload", "web"]
+  exclude_file = []
+  exclude_regex = ["_test.go"]
+  exclude_unchanged = false
+  follow_symlink = false
+  full_bin = ""
+  include_dir = []
+  include_ext = ["go", "tpl", "tmpl", "html"]
+  kill_delay = "0s"
+  log = "build-errors.log"
+  send_interrupt = false
+  stop_on_error = true
+
+[color]
+  app = ""
+  build = "yellow"
+  main = "magenta"
+  runner = "green"
+  watcher = "cyan"
+
+[log]
+  time = false
+
+[misc]
+  clean_on_exit = false
+
+[screen]
+  clear_on_rebuild = false
