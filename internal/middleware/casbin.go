@@ -2,6 +2,7 @@ package middleware
 
 import (
 	_ "embed"
+	"github.com/MQEnergy/mqshop/configs"
 	"strings"
 
 	"gorm.io/gorm"
@@ -17,9 +18,6 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
-//go:embed rbac_model.conf
-var rbacModelConf string
-
 // CasbinMiddleware casbin middleware
 func CasbinMiddleware(db *gorm.DB, prefix, tableName string) fiber.Handler {
 	return func(ctx *fiber.Ctx) error {
@@ -30,7 +28,7 @@ func CasbinMiddleware(db *gorm.DB, prefix, tableName string) fiber.Handler {
 			tableName = "casbin_rule"
 		}
 		adapter, _ := gormadapter.NewFilteredAdapterByDB(db, prefix, tableName)
-		rc, _ := model.NewModelFromString(rbacModelConf)
+		rc, _ := model.NewModelFromString(configs.RbacModelConf)
 		e, _ := casbin.NewEnforcer(rc, adapter)
 		e.AddFunction("ParamsObjMatch", ParamsObjMatchFunc)
 		e.AddFunction("ParamsActMatch", ParamsActMatchFunc)
