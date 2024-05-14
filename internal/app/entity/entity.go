@@ -9,7 +9,7 @@ type MethodMaps map[string][]any
 
 // methodMaps 需手动添加配置
 var methodMaps = MethodMaps{
-	"cn_admin": {
+	"ms_c_admin": {
 		func(Querier) {},
 		func(admin.Querier) {},
 	},

@@ -2,8 +2,9 @@ package middleware
 
 import (
 	_ "embed"
-	"github.com/MQEnergy/mqshop/configs"
 	"strings"
+
+	"github.com/MQEnergy/mqshop/configs"
 
 	"gorm.io/gorm"
 
@@ -24,6 +25,11 @@ func CasbinMiddleware(db *gorm.DB, prefix, tableName string) fiber.Handler {
 		if db == nil {
 			return ctx.Next()
 		}
+		if strings.HasSuffix(ctx.Path(), "/backend/auth/login") ||
+			strings.HasPrefix(ctx.Path(), "/backend/auth/forget-pass") {
+			return ctx.Next()
+		}
+
 		if tableName == "" {
 			tableName = "casbin_rule"
 		}

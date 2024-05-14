@@ -17,10 +17,12 @@ import (
 	"strings"
 	"time"
 
+	uuid2 "github.com/google/uuid"
+
 	"github.com/bwmarrin/snowflake"
 	"github.com/gogf/gf/v2/text/gstr"
+	"github.com/gogf/gf/v2/util/gconv"
 	"github.com/hashicorp/go-uuid"
-	"github.com/spf13/cast"
 	"gorm.io/gorm/schema"
 )
 
@@ -77,7 +79,7 @@ func GenerateBaseSnowId(num int, n *snowflake.Node) string {
 	case 64:
 		return id.Base64()
 	default:
-		return cast.ToString(id.Int64())
+		return gconv.String(id.Int64())
 	}
 }
 
@@ -130,7 +132,11 @@ func IsPathExist(path string) bool {
 // MakeMultiDir 调用os.MkdirAll递归创建文件夹
 func MakeMultiDir(filePath string) error {
 	if !IsPathExist(filePath) {
-		return os.MkdirAll(filePath, os.ModePerm)
+		err := os.MkdirAll(filePath, os.ModePerm)
+		if err != nil {
+			return err
+		}
+		return err
 	}
 	return nil
 }
@@ -170,19 +176,19 @@ func WriteContentToFile(file *multipart.FileHeader, filePath string) error {
 }
 
 // MakeTimeFormatDir
-// @Description: 创建时间格式的目录 如：upload/{path}/2023-01-07/
+// @Description: 创建时间格式的目录 如：{path}/2023-01-07/
 // @param rootPath 根目录
 // @param pathName 子目录名称
 // @param timeFormat 时间格式 如：2006-01-02、20060102
 // @return string
 // @return error
 func MakeTimeFormatDir(rootPath, pathName, timeFormat string) (string, error) {
-	filePath := "upload/"
+	filePath := rootPath + "/"
 	if pathName != "" {
 		filePath += pathName + "/"
 	}
 	filePath += time.Now().Format(timeFormat) + "/"
-	if err := MakeMultiDir(rootPath + filePath); err != nil {
+	if err := MakeMultiDir(filePath); err != nil {
 		return "", err
 	}
 	return filePath, nil
@@ -325,4 +331,42 @@ func ArrayChunk[T any](arr []T, size int) [][]T {
 		chunks = append(chunks, arr[i:end])
 	}
 	return chunks
+}
+
+// IntsToString 将int切片转换成字符串
+func IntsToString[T any](numbers []T, sep string) string {
+	strNumbers := make([]string, len(numbers))
+	for i, num := range numbers {
+		strNumbers[i] = gconv.String(num)
+	}
+	return strings.Join(strNumbers, sep)
+}
+
+// AnyToInts 将任何类型的切片转化成int切片
+func AnyToInts[T comparable](numbers []T) []int {
+	intNumbers := make([]int, len(numbers))
+	for i, num := range numbers {
+		intNumbers[i] = gconv.Int(num)
+	}
+	return intNumbers
+}
+
+// ToPointer 将任何类型转化成指针类型
+func ToPointer[T comparable](s T) *T {
+	return &s
+}
+
+// GenerateCode 随机生成n位验证码
+func GenerateCode(length int) string {
+	charset := "0123456789"
+	code := make([]byte, length)
+	for i := 0; i < length; i++ {
+		code[i] = charset[rand.IntN(len(charset))]
+	}
+	return string(code)
+}
+
+// GenerateId 生成随机id
+func GenerateId() string {
+	return uuid2.NewString()
 }

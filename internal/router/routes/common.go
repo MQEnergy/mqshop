@@ -1,7 +1,6 @@
 package routes
 
 import (
-	"github.com/MQEnergy/mqshop/internal/app/controller/backend"
 	"github.com/MQEnergy/mqshop/internal/middleware"
 	"github.com/MQEnergy/mqshop/internal/vars"
 	"github.com/MQEnergy/mqshop/pkg/jwtauth"
@@ -47,12 +46,5 @@ func InitCommonGroup(r fiber.Router, handles ...fiber.Handler) {
 				"role_ids": ctx.GetRespHeader("role_ids"),
 			})
 		})
-
-		// 上传资源
-		router.Post("/attachment/upload", backend.Attachment.Upload)
-
-		// 登录
-		router.Post("/backend/auth/login", backend.User.Login)
-
 	}
 }

@@ -10,6 +10,8 @@ jwt:
   expire: 864000   # token过期时间 单位：s
   issuer: 'mqshop'                   #【需修改】
   secret: '3jQSRZXeXzr09hq0GrZuL9Dgtk2XV9Ax' #【需修改】
+  authScheme: 'Bearer'
+  tokenLookup: 'header:Authorization' # Possible values: "header:<name>"、"query:<name>"、"param:<name>"、"cookie:<name>"
 log:
   level: -4 # 日志级别 debug: -4, info: 0, warn: 4, error: 8
   fileName: 'mqshop' # 日志文件名称  【需修改】

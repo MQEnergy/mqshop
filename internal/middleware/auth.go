@@ -1,6 +1,9 @@
 package middleware
 
 import (
+	"context"
+	"strings"
+
 	"github.com/MQEnergy/mqshop/internal/vars"
 	"github.com/MQEnergy/mqshop/pkg/response"
 	"github.com/spf13/cast"
@@ -13,7 +16,9 @@ import (
 // AuthMiddleware jwt authentication middleware
 func AuthMiddleware() fiber.Handler {
 	return jwtware.New(jwtware.Config{
-		SigningKey: jwtware.SigningKey{Key: []byte(vars.Config.GetString("jwt.secret"))},
+		TokenLookup: vars.Config.GetString("jwt.tokenLookup"),
+		AuthScheme:  vars.Config.GetString("jwt.authScheme"),
+		SigningKey:  jwtware.SigningKey{Key: []byte(vars.Config.GetString("jwt.secret"))},
 		ErrorHandler: func(c *fiber.Ctx, err error) error {
 			return response.UnauthorizedException(c, "会话已过期，请重新登录 err: "+err.Error())
 		},
@@ -24,6 +29,14 @@ func AuthMiddleware() fiber.Handler {
 						ctx.Set("uuid", cast.ToString(sub["uuid"]))
 						ctx.Set("uid", cast.ToString(sub["id"]))
 						ctx.Set("role_ids", cast.ToString(sub["role_ids"]))
+						// 验证token是否与redis中的一致
+						token, err := vars.Redis.Get(context.Background(), vars.Config.GetString("redis.prefix")+cast.ToString(sub["uuid"])).Result()
+						if err != nil {
+							return response.ForbiddenException(ctx, "会话过期，请重新登录")
+						}
+						if user.Raw != token {
+							return response.ForbiddenException(ctx, "会话过期，请重新登录")
+						}
 						return ctx.Next()
 					}
 				}
@@ -32,9 +45,10 @@ func AuthMiddleware() fiber.Handler {
 		},
 		Filter: func(ctx *fiber.Ctx) bool {
 			// notice: 在此可自定义路由通过auth验证
-			//if strings.HasPrefix(ctx.Path(), "/backend/auth/login") {
-			//	return true
-			//}
+			if strings.HasPrefix(ctx.Path(), "/backend/auth/login") ||
+				strings.HasPrefix(ctx.Path(), "/backend/auth/forget-pass") {
+				return true
+			}
 			return false
 		},
 		// ContextKey: "user", // used in ctx.Locals("user").(*jwt.Token)
