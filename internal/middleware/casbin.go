@@ -26,6 +26,7 @@ func CasbinMiddleware(db *gorm.DB, prefix, tableName string) fiber.Handler {
 			return ctx.Next()
 		}
 		if strings.HasSuffix(ctx.Path(), "/backend/auth/login") ||
+			strings.HasSuffix(ctx.Path(), "/backend/auth/logout") ||
 			strings.HasPrefix(ctx.Path(), "/backend/auth/forget-pass") {
 			return ctx.Next()
 		}
