@@ -11,7 +11,7 @@ import (
 // InitBackendGroup 初始化后台接口路由
 func InitBackendGroup(r fiber.Router, handles ...fiber.Handler) {
 	prefix := vars.Config.Get("database.mysql.sources." + database.DefaultAlias + ".prefix")
-	backendHandles := append(handles, middleware.CasbinMiddleware(vars.DB, prefix.(string), ""))
+	backendHandles := append(handles, middleware.CasbinMiddleware(vars.DB, prefix.(string), "c_casbin_rule"))
 	router := r.Group("backend", backendHandles...)
 	{
 		// 登录

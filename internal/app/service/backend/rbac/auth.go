@@ -79,7 +79,7 @@ func (s *AuthService) Login(ctx *fiber.Ctx, reqParams admin.LoginReq) (fiber.Map
 	// 更新login_ip login_time
 	adminInfo.LoginIP = ctx.IP()
 	adminInfo.LoginTime = time.Now().Unix()
-	dao.CAdmin.Save(adminInfo)
+	_ = dao.CAdmin.Save(adminInfo)
 
 	return fiber.Map{
 		"token": token,
