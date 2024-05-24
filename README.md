@@ -6,6 +6,9 @@
 [go-skeleton](https://github.com/MQEnergy/mqshop)
 2、前端组件：
 [shadcn-ui](https://github.com/shadcn-ui/ui) 
+3、前端项目：
+[mqshop-admin](https://github.com/MQEnergy/mqshop-admin) 
+
 
 ## 运行项目
 1、前端（待开发）
