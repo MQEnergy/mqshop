@@ -36,7 +36,7 @@ func (s *AdminService) Index(reqParams admin.IndexReq) (*pagination.PaginateResp
 			Or(u.RealName.Like("%" + reqParams.Keyword + "%")).
 			Or(u.Phone.Like("%" + reqParams.Keyword + "%"))
 	}
-	adminList, count, err := q.FindByPage(parsePage.GetOffset(), parsePage.GetLimit())
+	adminList, count, err := q.Omit(u.Password, u.Salt).FindByPage(parsePage.GetOffset(), parsePage.GetLimit())
 	if err != nil {
 		return nil, err
 	}
