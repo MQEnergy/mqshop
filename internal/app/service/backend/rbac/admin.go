@@ -67,9 +67,11 @@ func (s *AdminService) Index(reqParams admin.IndexReq) (*pagination.PaginateResp
 // Create ...
 func (s *AdminService) Create(reqParams admin.CreateReq) error {
 	var (
+		adminInfo model.CAdmin
 		uuid      = helper.GenerateBaseSnowId(0, nil)
 		timeNow   = time.Now().Unix()
-		adminInfo model.CAdmin
+		salt      = helper.GenerateUuid(32)
+		pass      = helper.GeneratePasswordHash(reqParams.Password, salt)
 	)
 	_, err := dao.CAdmin.Where(dao.CAdmin.Account.Eq(reqParams.Account)).First()
 	if err == nil {
@@ -79,8 +81,10 @@ func (s *AdminService) Create(reqParams admin.CreateReq) error {
 		return err
 	}
 	adminInfo.UUID = uuid
-	adminInfo.RegisterTime = timeNow
 	adminInfo.RoleIds = reqParams.RoleIds
+	adminInfo.Salt = salt
+	adminInfo.Password = pass
+	adminInfo.RegisterTime = timeNow
 	return dao.CAdmin.Save(&adminInfo)
 }
 

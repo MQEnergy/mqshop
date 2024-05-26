@@ -33,6 +33,9 @@ func Register(appName string) *fiber.App {
 		JSONDecoder:           json.Unmarshal,
 	})
 
+	r.Static("/upload", vars.BasePath+"/upload", fiber.Static{
+		Compress: true,
+	})
 	// middleware cors, compress, cache, X-Request-Id
 	r.Use(
 		recover.New(),
