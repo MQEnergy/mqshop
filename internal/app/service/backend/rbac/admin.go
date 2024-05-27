@@ -41,11 +41,12 @@ func (s *AdminService) Index(reqParams admin.IndexReq) (*pagination.PaginateResp
 		return nil, err
 	}
 	for i, item := range adminList {
-		cnAdminList = append(cnAdminList, &admin.CAdmin{
-			Info:     item,
+		adminItem := &admin.CAdmin{
+			CAdmin:   *item,
 			RoleList: make([]*model.CRole, 0),
 			IsSuper:  0,
-		})
+		}
+		cnAdminList = append(cnAdminList, adminItem)
 		if item.RoleIds != "" {
 			roleIds := strings.Split(item.RoleIds, ",")
 			if len(roleIds) > 0 {
@@ -60,7 +61,7 @@ func (s *AdminService) Index(reqParams admin.IndexReq) (*pagination.PaginateResp
 	}
 	parsePage.Total = count
 	parsePage.GetLastPage()
-	parsePage.List = adminList
+	parsePage.List = cnAdminList
 	return &parsePage, nil
 }
 
@@ -108,11 +109,12 @@ func (s *AdminService) View(uuid string) (*admin.CAdmin, error) {
 		adminInfo admin.CAdmin
 		err       error
 	)
-	adminInfo.Info, err = u.Select(u.ID, u.UUID, u.Account, u.Phone, u.Avatar, u.RealName, u.RoleIds).Where(u.UUID.Eq(uuid)).First()
+	cAdminInfo, err := u.Select(u.ID, u.UUID, u.Account, u.Phone, u.Avatar, u.RealName, u.RoleIds).Where(u.UUID.Eq(uuid)).First()
 	if err != nil {
 		return nil, err
 	}
-	roleList := strings.Split(adminInfo.Info.RoleIds, ",")
+	adminInfo.CAdmin = *cAdminInfo
+	roleList := strings.Split(adminInfo.CAdmin.RoleIds, ",")
 	if len(roleList) > 0 {
 		if helper.InAnySlice[string](roleList, vars.Config.GetString("server.superRoleId")) {
 			isSuper = 1

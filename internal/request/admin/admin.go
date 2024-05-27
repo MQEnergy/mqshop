@@ -20,7 +20,7 @@ type IndexReq struct {
 }
 
 type CAdmin struct {
-	Info     *model.CAdmin  `json:"info"`
+	model.CAdmin
 	RoleList []*model.CRole `gorm:"-" json:"role_list"`
 	IsSuper  int            `gorm:"-" json:"is_super"`
 }
