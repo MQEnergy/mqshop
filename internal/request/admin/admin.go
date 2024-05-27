@@ -45,6 +45,7 @@ type UpdateReq struct {
 	Phone    string `form:"phone" json:"phone"`                             // 手机号
 	Avatar   string `form:"avatar" json:"avatar"`                           // 头像
 	RealName string `form:"real_name" json:"real_name"`                     // 真实姓名
+	RoleIds  string `form:"role_ids" json:"role_ids" validate:"required"`   // 角色IDs
 	Status   uint8  `form:"status" json:"status"`                           // 状态 1：正常 2：禁用
 }
 
