@@ -3,6 +3,7 @@ package rbac
 import (
 	"context"
 	"errors"
+	"github.com/spf13/cast"
 	"strings"
 	"time"
 
@@ -91,6 +92,11 @@ func (s *AdminService) Create(reqParams admin.CreateReq) error {
 
 // Update ...
 func (s *AdminService) Update(reqParams admin.UpdateReq) error {
+	// 检测账号是否有重复的
+	_, err := dao.CAdmin.Where(dao.CAdmin.ID.Neq(reqParams.Id), dao.CAdmin.Account.Eq(reqParams.Account)).First()
+	if err == nil {
+		return errors.New("当前账号已经存在")
+	}
 	adminInfo, err := dao.CAdmin.Where(dao.CAdmin.ID.Eq(reqParams.Id)).First()
 	if err != nil {
 		return err
@@ -131,7 +137,12 @@ func (s *AdminService) Info(reqParams admin.InfoReq) (*model.CAdmin, error) {
 
 // Delete ...
 func (s *AdminService) Delete(reqParams admin.DeleteReq) error {
-	if _, err := dao.CAdmin.Where(dao.CAdmin.ID.Eq(reqParams.Id)).Delete(); err != nil {
+	ids := strings.Split(reqParams.Ids, ",")
+	adminIds := make([]int64, 0)
+	for _, id := range ids {
+		adminIds = append(adminIds, cast.ToInt64(id))
+	}
+	if _, err := dao.CAdmin.Where(dao.CAdmin.ID.In(adminIds...)).Delete(); err != nil {
 		return errors.New("删除失败 err: " + err.Error())
 	}
 	return nil

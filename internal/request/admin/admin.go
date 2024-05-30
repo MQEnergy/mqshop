@@ -17,6 +17,7 @@ type IndexReq struct {
 	Page    int    `form:"page" json:"page" validate:"required"`
 	Limit   int    `form:"limit" json:"limit" validate:"required"`
 	Keyword string `form:"keyword" json:"keyword"`
+	Search  string `form:"search" json:"search"`
 }
 
 type CAdmin struct {
@@ -51,7 +52,7 @@ type UpdateReq struct {
 
 // DeleteReq ...
 type DeleteReq struct {
-	Id int64 `form:"id" json:"id" validate:"required"` //
+	Ids string `form:"ids" json:"ids" validate:"required"` //
 }
 
 // InfoReq ...
