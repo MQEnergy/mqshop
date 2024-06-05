@@ -51,7 +51,7 @@ type UpdateReq struct {
 
 // DeleteReq ...
 type DeleteReq struct {
-	Id int64 `form:"id" json:"id" validate:"required"` //
+	Ids string `form:"ids" json:"ids" validate:"required"` //
 }
 
 // InfoReq ...
