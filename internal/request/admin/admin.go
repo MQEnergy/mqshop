@@ -14,9 +14,9 @@ type WxLoginReq struct {
 
 // IndexReq ...
 type IndexReq struct {
-	Page    int    `form:"page" json:"page" validate:"required"`
-	Limit   int    `form:"limit" json:"limit" validate:"required"`
-	Keyword string `form:"keyword" json:"keyword"`
+	Page   int    `form:"page" json:"page" validate:"required"`
+	Limit  int    `form:"limit" json:"limit" validate:"required"`
+	Search string `form:"search" json:"search"`
 }
 
 type CAdmin struct {

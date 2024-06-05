@@ -6,6 +6,9 @@ import (
 	"strings"
 	"time"
 
+	"github.com/goccy/go-json"
+	"github.com/spf13/cast"
+
 	"github.com/MQEnergy/mqshop/internal/app/dao"
 	"github.com/MQEnergy/mqshop/internal/app/model"
 	"github.com/MQEnergy/mqshop/internal/app/pkg/pagination"
@@ -31,12 +34,22 @@ func (s *AdminService) Index(reqParams admin.IndexReq) (*pagination.PaginateResp
 		cnAdminList = make([]*admin.CAdmin, 0)
 	)
 	q := u.Order(u.ID.Desc())
-	if reqParams.Keyword != "" {
-		q.Where(u.Account.Like("%" + reqParams.Keyword + "%")).
-			Or(u.RealName.Like("%" + reqParams.Keyword + "%")).
-			Or(u.Phone.Like("%" + reqParams.Keyword + "%"))
+	if reqParams.Search != "" {
+		searchForm := make(map[string]interface{})
+		if err := json.Unmarshal([]byte(reqParams.Search), &searchForm); err == nil {
+			keyword := cast.ToString(searchForm["keyword"])
+			status := cast.ToInt8(searchForm["status"])
+			if keyword != "" {
+				q.Where(u.Where(u.Account.Like("%" + keyword + "%")).
+					Or(u.RealName.Like("%" + keyword + "%")).
+					Or(u.Phone.Like("%" + keyword + "%")))
+			}
+			if searchForm["status"] != "" {
+				q.Where(u.Status.Eq(status))
+			}
+		}
 	}
-	adminList, count, err := q.Omit(u.Password, u.Salt).FindByPage(parsePage.GetOffset(), parsePage.GetLimit())
+	adminList, count, err := q.Debug().Omit(u.Password, u.Salt).FindByPage(parsePage.GetOffset(), parsePage.GetLimit())
 	if err != nil {
 		return nil, err
 	}
