@@ -3,12 +3,8 @@ package rbac
 import (
 	"context"
 	"errors"
-	"github.com/spf13/cast"
 	"strings"
 	"time"
-
-	"github.com/goccy/go-json"
-	"github.com/spf13/cast"
 
 	"github.com/MQEnergy/mqshop/internal/app/dao"
 	"github.com/MQEnergy/mqshop/internal/app/model"
@@ -18,7 +14,9 @@ import (
 	"github.com/MQEnergy/mqshop/internal/request/admin"
 	"github.com/MQEnergy/mqshop/internal/vars"
 	"github.com/MQEnergy/mqshop/pkg/helper"
+	"github.com/goccy/go-json"
 	"github.com/jinzhu/copier"
+	"github.com/spf13/cast"
 )
 
 type AdminService struct {
