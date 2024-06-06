@@ -2,9 +2,9 @@ package role
 
 // IndexReq ...
 type IndexReq struct {
-	Page    int    `query:"page" form:"page" json:"page" validate:"required"`
-	Limit   int    `query:"limit" form:"limit" json:"limit" validate:"required"`
-	Keyword string `query:"page" form:"keyword" json:"keyword"` // 搜索关键词
+	Page   int    `query:"page" form:"page" json:"page" validate:"required"`
+	Limit  int    `query:"limit" form:"limit" json:"limit" validate:"required"`
+	Search string `form:"search" json:"search"`
 }
 
 // CreateOrUpdateReq 创建和编辑请求参数
@@ -17,7 +17,7 @@ type CreateOrUpdateReq struct {
 
 // DeleteReq ...
 type DeleteReq struct {
-	Id int `form:"id" json:"id" validate:"required"` //
+	Ids string `form:"ids" json:"ids" validate:"required"` //
 }
 
 // ViewReq ...

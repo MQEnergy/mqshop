@@ -2,6 +2,9 @@ package rbac
 
 import (
 	"errors"
+	"github.com/goccy/go-json"
+	"github.com/spf13/cast"
+	"strings"
 	"time"
 
 	"github.com/MQEnergy/mqshop/internal/app/dao"
@@ -19,8 +22,25 @@ var Role = &RoleService{}
 
 // Index 获取列表
 func (s *RoleService) Index(reqParams role.IndexReq) (*pagination.PaginateResp, error) {
-	parsePage := pagination.New().ParsePage(reqParams.Page, reqParams.Limit)
-	roleList, count, err := dao.CRole.Order(dao.CRole.ID.Desc()).FindByPage(parsePage.GetOffset(), parsePage.GetLimit())
+	var (
+		u         = dao.CRole
+		parsePage = pagination.New().ParsePage(reqParams.Page, reqParams.Limit)
+	)
+	q := dao.CRole.Order(u.ID.Desc())
+	if reqParams.Search != "" {
+		searchForm := make(map[string]interface{})
+		if err := json.Unmarshal([]byte(reqParams.Search), &searchForm); err == nil {
+			keyword := cast.ToString(searchForm["keyword"])
+			status := cast.ToInt8(searchForm["status"])
+			if keyword != "" {
+				q.Where(u.Where(u.Name.Like("%" + keyword + "%")))
+			}
+			if searchForm["status"] != "" {
+				q.Where(u.Status.Eq(status))
+			}
+		}
+	}
+	roleList, count, err := q.FindByPage(parsePage.GetOffset(), parsePage.GetLimit())
 	if err != nil {
 		return nil, err
 	}
@@ -54,9 +74,13 @@ func (s *RoleService) CreateOrUpdate(reqParams role.CreateOrUpdateReq) error {
 
 // Delete 状态禁止
 func (s *RoleService) Delete(reqParams role.DeleteReq) error {
-	_, err := dao.CRole.Where(dao.CRole.ID.In(reqParams.Id)).Delete()
-	if err != nil {
-		return err
+	ids := strings.Split(reqParams.Ids, ",")
+	roleIds := make([]int, 0)
+	for _, id := range ids {
+		roleIds = append(roleIds, cast.ToInt(id))
+	}
+	if _, err := dao.CRole.Where(dao.CRole.ID.In(roleIds...)).Delete(); err != nil {
+		return errors.New("删除失败 err: " + err.Error())
 	}
 	return nil
 }
