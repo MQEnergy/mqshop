@@ -128,6 +128,14 @@ func handleGenMigrate(dbName string) error {
 	}); err != nil {
 		return err
 	}
+
+	if err := dao.CRole.Create(&model.CRole{
+		Name:   "超级管理员",
+		Desc:   "超级管理员",
+		Status: 1,
+	}); err != nil {
+		return err
+	}
 	fmt.Println(fmt.Sprintf("\u001B[34m%s\u001B[0m", dbName+" 数据表迁移完成 管理账号：admin / admin888"))
 	return nil
 }
