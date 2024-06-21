@@ -128,6 +128,6 @@ func handleGenMigrate(dbName string) error {
 	}); err != nil {
 		return err
 	}
-	fmt.Println(fmt.Sprintf("\u001B[34m%s\u001B[0m", dbName+" 数据表迁移完成"))
+	fmt.Println(fmt.Sprintf("\u001B[34m%s\u001B[0m", dbName+" 数据表迁移完成 管理账号：admin / admin888"))
 	return nil
 }
