@@ -73,7 +73,7 @@ CREATE TABLE `ms_c_resource` (
   `desc` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '资源描述',
   `f_url` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT '资源前端URL',
   `b_url` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '资源后端URL',
-  `icon` varchar(16) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT '资源icon',
+  `icon` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT '资源icon',
   `parent_id` bigint unsigned NOT NULL DEFAULT '0' COMMENT '父级ID',
   `path` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT 'ID路径 1-2-3...',
   `s_type` tinyint NOT NULL DEFAULT '1' COMMENT '资源类型 1：模块 2：操作',
