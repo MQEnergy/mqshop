@@ -19,8 +19,8 @@ type ProductCategory struct {
 	IsHot        int8   `gorm:"column:is_hot;type:tinyint unsigned;not null;comment:是否热门 1：热门 0：非热门" json:"is_hot"`        // 是否热门 1：热门 0：非热门
 	IsIndex      int8   `gorm:"column:is_index;type:tinyint unsigned;not null;comment:是否首页 1：首页 0：非首页" json:"is_index"`    // 是否首页 1：首页 0：非首页
 	Status       int8   `gorm:"column:status;type:tinyint unsigned;not null;default:1;comment:状态 1：正常 0：下架" json:"status"` // 状态 1：正常 0：下架
-	CreatedAt    *int64 `gorm:"column:created_at;type:bigint unsigned" json:"created_at"`
-	UpdatedAt    *int64 `gorm:"column:updated_at;type:bigint unsigned" json:"updated_at"`
+	CreatedAt    int64  `gorm:"column:created_at;type:bigint unsigned;not null" json:"created_at"`
+	UpdatedAt    int64  `gorm:"column:updated_at;type:bigint unsigned;not null" json:"updated_at"`
 }
 
 // TableName ProductCategory's table name

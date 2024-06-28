@@ -12,6 +12,7 @@ import (
 func InitBackendGroup(r fiber.Router, handles ...fiber.Handler) {
 	prefix := vars.Config.Get("database.mysql.sources." + database.DefaultAlias + ".prefix")
 	backendHandles := append(handles, middleware.CasbinMiddleware(vars.DB, prefix.(string), "c_casbin_rule"))
+
 	router := r.Group("backend", backendHandles...)
 	{
 		// 登录
@@ -82,22 +83,29 @@ func InitBackendGroup(r fiber.Router, handles ...fiber.Handler) {
 		// 修改密码 (修改其他人的)
 		router.Post("/admin/change-pass", backend.Admin.ChangePassword)
 		// ============================== RBAC ==============================
+
+		// ============================== 商品 ==============================
+		router.Get("/product/index", backend.Product.Index)
+		router.Post("/product/delete", backend.Product.Delete)
+		router.Post("/product/create", backend.Product.Create)
+		router.Get("/product/view", backend.Product.View)
+		router.Post("/product/status", backend.Product.Status)
+		router.Get("/product/attrs", backend.Product.Index)
+		router.Get("/product/attrs-list", backend.Product.Index)
+		router.Post("/product/attrs-save", backend.Product.Index)
+		router.Post("/product/sku-no-create", backend.Product.Index)
+
+		// ============================== 商品分类 ==============================
+		router.Get("/cate/index", backend.Cate.Index)
+		router.Post("/cate/delete", backend.Cate.Delete)
+		router.Post("/cate/create", backend.Cate.Create)
+		router.Post("/cate/update", backend.Cate.Update)
+		router.Get("/cate/view", backend.Cate.View)
+		router.Get("/cate/status", backend.Cate.Status)
+		router.Get("/cate/list", backend.Cate.List)
+
+		// ============================== 商品品牌 ==============================
+		router.Get("/brand/index", backend.Brand.Index)
+
 	}
-
-	// casbin中间件可根据不同的数据库进行单独配置 示例如下：
-	// demo数据库中存在casbin_rule
-	//prefix := vars.Config.Get("database.mysql.sources.demo.prefix")
-	//demoHandles := append(handles, middleware.CasbinMiddleware(vars.MDB["demo"], prefix.(string), ""))
-	//router1 := r.Group("demo", demoHandles...)
-	//{
-	//	router1.Get("/", func(ctx *fiber.Ctx) error { return nil })
-	//}
-
-	// demo1数据库中存在casbin_rule
-	//prefix := vars.Config.Get("database.mysql.sources.demo1.prefix")
-	//demo1Handles := append(handles, middleware.CasbinMiddleware(vars.MDB["demo1"], prefix.(string), ""))
-	//router2 := r.Group("demo1", demo1Handles...)
-	//{
-	//	router2.Get("/", func(ctx *fiber.Ctx) error { return nil })
-	//}
 }
