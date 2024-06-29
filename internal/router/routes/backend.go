@@ -101,11 +101,20 @@ func InitBackendGroup(r fiber.Router, handles ...fiber.Handler) {
 		router.Post("/cate/create", backend.Cate.Create)
 		router.Post("/cate/update", backend.Cate.Update)
 		router.Get("/cate/view", backend.Cate.View)
-		router.Get("/cate/status", backend.Cate.Status)
+		router.Post("/cate/status", backend.Cate.Status)
 		router.Get("/cate/list", backend.Cate.List)
 
 		// ============================== 商品品牌 ==============================
 		router.Get("/brand/index", backend.Brand.Index)
+		router.Post("/brand/delete", backend.Brand.Delete)
+		router.Post("/brand/create", backend.Brand.Create)
+		router.Post("/brand/update", backend.Brand.Update)
+		router.Get("/brand/view", backend.Brand.View)
+		router.Post("/brand/status", backend.Brand.Status)
+		router.Get("/brand/list", backend.Brand.List)
+
+		// ============================== 商品规格 ==============================
+		// router.Get("/spec/index", backend.Spec.Index)
 
 	}
 }

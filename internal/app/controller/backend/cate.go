@@ -64,9 +64,9 @@ func (s *CateController) View(ctx *fiber.Ctx) error {
 	return response.SuccessJSON(ctx, "", productGoods)
 }
 
-// Delete...
+// Delete ...
 func (s *CateController) Delete(ctx *fiber.Ctx) error {
-	var params product.DeleteReq
+	var params product.MultiDeleteReq
 	if err := s.Validate(ctx, &params); err != nil {
 		return response.BadRequestException(ctx, err.Error())
 	}

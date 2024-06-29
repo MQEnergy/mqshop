@@ -15,8 +15,8 @@ type ProductBrand struct {
 	SortOrder int    `gorm:"column:sort_order;type:int unsigned;not null;default:50;comment:排序" json:"sort_order"`      // 排序
 	IsHot     int8   `gorm:"column:is_hot;type:tinyint unsigned;not null;comment:是否热门 1：热门 0：非热门" json:"is_hot"`        // 是否热门 1：热门 0：非热门
 	Status    int8   `gorm:"column:status;type:tinyint unsigned;not null;default:1;comment:状态 1：正常 0：下架" json:"status"` // 状态 1：正常 0：下架
-	CreatedAt *int64 `gorm:"column:created_at;type:bigint unsigned" json:"created_at"`
-	UpdatedAt *int64 `gorm:"column:updated_at;type:bigint unsigned" json:"updated_at"`
+	CreatedAt int64  `gorm:"column:created_at;type:bigint unsigned;not null" json:"created_at"`
+	UpdatedAt int64  `gorm:"column:updated_at;type:bigint unsigned;not null" json:"updated_at"`
 }
 
 // TableName ProductBrand's table name

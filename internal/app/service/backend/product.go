@@ -18,9 +18,7 @@ var Product = &ProductService{}
 
 // Index ...
 func (s *ProductService) Index(params product.IndexReq) (*pagination.PaginateResp, error) {
-	var (
-		parsePage = pagination.New().ParsePage(params.Page, params.Limit)
-	)
+	parsePage := pagination.New().ParsePage(params.Page, params.Limit)
 	productGoods, count, err := dao.ProductGoods.FindByPage(parsePage.GetOffset(), parsePage.GetLimit())
 	if err != nil {
 		return nil, err
@@ -75,7 +73,7 @@ func (s *ProductService) Delete(params product.DeleteReq) error {
 //	@param params
 //	@return error
 func (s *ProductService) Create(params product.CreateReq) error {
-	//imageList := params.ImageList
+	// imageList := params.ImageList
 	//	开启事务
 	q := dao.Use(vars.DB)
 	return q.Transaction(func(tx *dao.Query) error {
@@ -140,7 +138,6 @@ func (s *ProductService) Update(params product.UpdateReq) error {
 
 		return nil
 	})
-
 }
 
 // View

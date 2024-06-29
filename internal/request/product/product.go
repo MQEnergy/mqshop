@@ -15,9 +15,14 @@ type DeleteReq struct {
 	ID int64 `form:"id" json:"id" validate:"required"`
 }
 
+// MultiDeleteReq ...
+type MultiDeleteReq struct {
+	IDs string `form:"ids" json:"ids" validate:"required"` // 1,2,3,4 ...
+}
+
 type StatusReq struct {
 	ID     int64 `form:"id" json:"id" validate:"required"`
-	Status int8  `form:"status" json:"status" validate:"required"`
+	Status int8  `form:"status" json:"status"`
 }
 
 type CreateReq struct {

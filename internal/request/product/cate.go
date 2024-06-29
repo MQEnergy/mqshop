@@ -1,11 +1,5 @@
 package product
 
-import "github.com/MQEnergy/mqshop/internal/app/model"
-
-type CateItem struct {
-	model.ProductCategory
-}
-
 type CateCreateReq struct {
 	CateName  string `form:"cate_name" json:"cate_name" validate:"required"`
 	CateDesc  string `form:"cate_desc" json:"cate_desc"`

@@ -3,6 +3,8 @@ package backend
 import (
 	"errors"
 	"fmt"
+	"strings"
+
 	"github.com/MQEnergy/mqshop/internal/app/dao"
 	"github.com/MQEnergy/mqshop/internal/app/model"
 	"github.com/MQEnergy/mqshop/internal/app/service"
@@ -10,7 +12,6 @@ import (
 	"github.com/MQEnergy/mqshop/internal/vars"
 	"github.com/jinzhu/copier"
 	"github.com/spf13/cast"
-	"strings"
 )
 
 type CateService struct {
@@ -122,16 +123,6 @@ func BuildHierarchy(resources []*model.ProductCategory) []*CateItem {
 
 // Index ...
 func (s *CateService) Index(params product.IndexReq) ([]*CateItem, error) {
-	//var (
-	//	parsePage = pagination.New().ParsePage(params.Page, params.Limit)
-	//)
-	//result, count, err := dao.ProductCategory.FindByPage(parsePage.GetOffset(), parsePage.GetLimit())
-	//if err != nil {
-	//	return nil, err
-	//}
-	//parsePage.Total = count
-	//parsePage.GetLastPage()
-	//parsePage.List = result
 	categories, err := dao.ProductCategory.Order(dao.ProductCategory.ID.Asc(), dao.ProductCategory.SortOrder.Desc()).Find()
 	if err != nil {
 		return nil, err
@@ -156,6 +147,9 @@ func (s *CateService) Create(params product.CateCreateReq) error {
 			Status:       params.Status,
 		}
 	)
+	if _, err := dao.ProductCategory.Where(dao.ProductCategory.CateName.Eq(params.CateName)).First(); err == nil {
+		return errors.New("分类名称已存在")
+	}
 	return q.Transaction(func(tx *dao.Query) error {
 		if err := tx.ProductCategory.Save(&info); err != nil {
 			return err
@@ -210,23 +204,28 @@ func (s *CateService) Update(params product.CateUpdateReq) error {
 }
 
 // Delete ...
-func (s *CateService) Delete(params product.DeleteReq) error {
-	var (
-		cateIds = []int64{params.ID}
-	)
-	childCateList, err := dao.ProductCategory.Where(dao.ProductCategory.ParentID.Eq(params.ID)).Find()
+func (s *CateService) Delete(params product.MultiDeleteReq) error {
+	idList := make([]int64, 0)
+	ids := strings.Split(params.IDs, ",")
+	if len(ids) == 0 {
+		return errors.New("请选择需要删除的记录")
+	}
+	for _, id := range ids {
+		idList = append(idList, cast.ToInt64(id))
+	}
+	childCateList, err := dao.ProductCategory.Where(dao.ProductCategory.ParentID.In(idList...)).Find()
 	if err != nil {
 		return err
 	}
 	for _, category := range childCateList {
-		cateIds = append(cateIds, category.ID)
+		idList = append(idList, category.ID)
 	}
 	// 查询该分类下的商品
-	productList, _ := dao.ProductGoods.Where(dao.ProductGoods.CateID.In(cateIds...)).Find()
+	productList, _ := dao.ProductGoods.Where(dao.ProductGoods.CateID.In(idList...)).Find()
 	if len(productList) > 0 {
 		return errors.New("该分类下有商品，需要先删除商品")
 	}
-	if _, err := dao.ProductCategory.Where(dao.ProductCategory.ID.In(cateIds...)).Delete(); err != nil {
+	if _, err := dao.ProductCategory.Where(dao.ProductCategory.ID.In(idList...)).Delete(); err != nil {
 		return err
 	}
 	return nil
