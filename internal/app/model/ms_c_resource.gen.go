@@ -14,7 +14,7 @@ type CResource struct {
 	Desc      string `gorm:"column:desc;type:varchar(64);not null;comment:菜单描述" json:"desc"`                              // 菜单描述
 	FURL      string `gorm:"column:f_url;type:varchar(64);not null;comment:菜单前端URL" json:"f_url"`                         // 菜单前端URL
 	BURL      string `gorm:"column:b_url;type:varchar(64);not null;comment:后端URL" json:"b_url"`                           // 后端URL
-	Icon      string `gorm:"column:icon;type:varchar(16);not null;comment:菜单icon" json:"icon"`                            // 菜单icon
+	Icon      string `gorm:"column:icon;type:varchar(32);not null;comment:菜单icon" json:"icon"`                            // 菜单icon
 	ParentID  int64  `gorm:"column:parent_id;type:bigint unsigned;not null;comment:父级ID" json:"parent_id"`                // 父级ID
 	Path      string `gorm:"column:path;type:varchar(32);not null;comment:ID路径 1-2-3..." json:"path"`                     // ID路径 1-2-3...
 	MenuType  int8   `gorm:"column:menu_type;type:tinyint;not null;default:1;comment:菜单类型 1：模块 2：操作" json:"menu_type"`    // 菜单类型 1：模块 2：操作
