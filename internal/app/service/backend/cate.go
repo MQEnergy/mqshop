@@ -245,8 +245,16 @@ func (s *CateService) Status(params product.StatusReq) error {
 }
 
 // List ...
-func (s *CateService) List() ([]*CateNode, error) {
-	categories, err := dao.ProductCategory.Find()
+func (s *CateService) List(params product.CateListReq) ([]*CateNode, error) {
+	var (
+		categories []*model.ProductCategory
+		err        error
+	)
+	if params.ID == 0 {
+		categories, err = dao.ProductCategory.Find()
+	} else {
+		categories, err = dao.ProductCategory.Where(dao.ProductCategory.ID.Neq(params.ID)).Find()
+	}
 	if err != nil {
 		return nil, err
 	}

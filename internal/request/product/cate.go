@@ -1,5 +1,9 @@
 package product
 
+type CateListReq struct {
+	ID int64 `form:"id" json:"id"`
+}
+
 type CateCreateReq struct {
 	CateName  string `form:"cate_name" json:"cate_name" validate:"required"`
 	CateDesc  string `form:"cate_desc" json:"cate_desc"`

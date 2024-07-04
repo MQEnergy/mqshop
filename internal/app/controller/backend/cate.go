@@ -90,7 +90,11 @@ func (s *CateController) Status(ctx *fiber.Ctx) error {
 
 // List ...
 func (s *CateController) List(ctx *fiber.Ctx) error {
-	productGoods, err := backend.Cate.List()
+	var params product.CateListReq
+	if err := s.Validate(ctx, &params); err != nil {
+		return response.BadRequestException(ctx, err.Error())
+	}
+	productGoods, err := backend.Cate.List(params)
 	if err != nil {
 		return response.BadRequestException(ctx, err.Error())
 	}
