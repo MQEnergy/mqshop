@@ -113,8 +113,12 @@ func InitBackendGroup(r fiber.Router, handles ...fiber.Handler) {
 		router.Post("/brand/status", backend.Brand.Status)
 		router.Get("/brand/list", backend.Brand.List)
 
-		// ============================== 商品规格 ==============================
-		// router.Get("/spec/index", backend.Spec.Index)
-
+		// ============================== 商品属性 ==============================
+		router.Get("/attr-cates/index", backend.AttrCate.Index)
+		router.Get("/attr-cates/list", backend.AttrCate.List)
+		router.Get("/attr-cates/view", backend.AttrCate.View)
+		router.Post("/attr-cates/update", backend.AttrCate.Update)
+		router.Post("/attr-cates/delete", backend.AttrCate.Delete)
+		router.Post("/attr-cates/create", backend.AttrCate.Create)
 	}
 }
