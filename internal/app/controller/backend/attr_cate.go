@@ -85,3 +85,16 @@ func (s *AttrCateController) List(ctx *fiber.Ctx) error {
 	}
 	return response.SuccessJSON(ctx, "获取成功", result)
 }
+
+// AttrParamsList ...
+func (s *AttrCateController) AttrParamsList(ctx *fiber.Ctx) error {
+	var params product.AttrCateAttrParamListReq
+	if err := s.Validate(ctx, &params); err != nil {
+		return response.BadRequestException(ctx, err.Error())
+	}
+	result, err := backend.AttrCate.AttrParamsList(params)
+	if err != nil {
+		return response.BadRequestException(ctx, err.Error())
+	}
+	return response.SuccessJSON(ctx, "获取成功", result)
+}

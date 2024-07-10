@@ -120,5 +120,7 @@ func InitBackendGroup(r fiber.Router, handles ...fiber.Handler) {
 		router.Post("/attr-cates/update", backend.AttrCate.Update)
 		router.Post("/attr-cates/delete", backend.AttrCate.Delete)
 		router.Post("/attr-cates/create", backend.AttrCate.Create)
+		// 属性列表 和 参数列表
+		router.Post("/attr-cates/attr-list", backend.AttrCate.AttrParamsList)
 	}
 }

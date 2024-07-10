@@ -20,10 +20,9 @@ var AttrCate = &AttrCateService{}
 // Index ...
 func (s *AttrCateService) Index(params product.IndexReq) (*pagination.PaginateResp, error) {
 	var (
-		attrList = make([]*product.AttrCate, 0)
+		attrList  = make([]*product.AttrCate, 0)
+		parsePage = pagination.New().ParsePage(params.Page, params.Limit)
 	)
-
-	parsePage := pagination.New().ParsePage(params.Page, params.Limit)
 	result, count, err := dao.ProductGoodsAttrCate.FindByPage(parsePage.GetOffset(), parsePage.GetLimit())
 	if err != nil {
 		return nil, err
@@ -97,4 +96,20 @@ func (s *AttrCateService) Delete(params product.MultiDeleteReq) error {
 // List ...
 func (s *AttrCateService) List() ([]*model.ProductGoodsAttrCate, error) {
 	return dao.ProductGoodsAttrCate.Where(dao.ProductGoodsAttrCate.Status.Eq(1)).Find()
+}
+
+// AttrParamsList ...
+func (s *AttrCateService) AttrParamsList(params product.AttrCateAttrParamListReq) (*pagination.PaginateResp, error) {
+	var (
+		parsePage = pagination.New().ParsePage(params.Page, params.Limit)
+	)
+	result, count, err := dao.ProductGoodsAttr.Where(dao.ProductGoodsAttr.CateID.Eq(params.ID), dao.ProductGoodsAttr.AttrType.Eq(params.AttrType)).
+		FindByPage(parsePage.GetOffset(), parsePage.GetLimit())
+	if err != nil {
+		return nil, err
+	}
+	parsePage.Total = count
+	parsePage.GetLastPage()
+	parsePage.List = result
+	return &parsePage, nil
 }

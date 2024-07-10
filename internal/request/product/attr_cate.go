@@ -19,3 +19,11 @@ type AttrCateUpdateReq struct {
 	CateName string `form:"cate_name" json:"cate_name" validate:"required"`
 	Status   int8   `form:"status" json:"status"`
 }
+
+type AttrCateAttrParamListReq struct {
+	ID       int64  `form:"id" json:"id" validate:"required"`
+	AttrType int8   `form:"attr_type" json:"attr_type" validate:"required"`
+	Page     int    `form:"page" json:"page" validate:"required"`
+	Limit    int    `form:"limit" json:"limit" validate:"required"`
+	Search   string `form:"search" json:"search"`
+}
