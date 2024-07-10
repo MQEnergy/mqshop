@@ -47,7 +47,7 @@ type cRole struct {
 	ID        field.Int
 	Name      field.String // 角色名称
 	Desc      field.String // 角色描述
-	Status    field.Int8   // 状态：1正常(默认) 2停用
+	Status    field.Int8   // 状态：1正常(默认) 0停用
 	CreatedAt field.Int
 	UpdatedAt field.Int
 

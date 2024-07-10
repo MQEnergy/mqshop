@@ -1,6 +1,7 @@
 package product
 
 type AttrCate struct {
+	ID        int64  `json:"id"`
 	CateName  string `json:"cate_name"`
 	Status    int8   `json:"status"`
 	ParamsNum int64  `json:"params_num"` // 参数数量
@@ -10,11 +11,11 @@ type AttrCate struct {
 
 type AttrCateCreateReq struct {
 	CateName string `form:"cate_name" json:"cate_name" validate:"required"`
-	Status   int8   `form:"status" json:"status" validate:"required"`
+	Status   int8   `form:"status" json:"status"`
 }
 
 type AttrCateUpdateReq struct {
 	ID       int64  `form:"id" json:"id" validate:"required"`
 	CateName string `form:"cate_name" json:"cate_name" validate:"required"`
-	Status   int8   `form:"status" json:"status" validate:"required"`
+	Status   int8   `form:"status" json:"status"`
 }

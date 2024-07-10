@@ -17,7 +17,7 @@ type CAttachment struct {
 	AttachMinetype   string `gorm:"column:attach_minetype;type:varchar(16);not null;comment:附件mine类型" json:"attach_minetype"`                   // 附件mine类型
 	AttachExtension  string `gorm:"column:attach_extension;type:varchar(16);not null;comment:附件后缀名" json:"attach_extension"`                    // 附件后缀名
 	AttachSize       string `gorm:"column:attach_size;type:varchar(32);not null;comment:附件大小" json:"attach_size"`                               // 附件大小
-	Status           int8   `gorm:"column:status;type:tinyint unsigned;not null;default:1;comment:状态 1：正常 0：删除" json:"status"`                  // 状态 1：正常 0：删除
+	Status           int8   `gorm:"column:status;type:tinyint unsigned;not null;comment:状态 1：正常 0：删除" json:"status"`                            // 状态 1：正常 0：删除
 	CreatedAt        *int64 `gorm:"column:created_at;type:bigint unsigned" json:"created_at"`
 	UpdatedAt        *int64 `gorm:"column:updated_at;type:bigint unsigned" json:"updated_at"`
 }

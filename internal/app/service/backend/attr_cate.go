@@ -32,6 +32,7 @@ func (s *AttrCateService) Index(params product.IndexReq) (*pagination.PaginateRe
 		attrNum, _ := dao.ProductGoodsAttr.Where(dao.ProductGoodsAttr.CateID.Eq(cate.ID), dao.ProductGoodsAttr.AttrType.Eq(1)).Count()
 		paramsNum, _ := dao.ProductGoodsAttr.Where(dao.ProductGoodsAttr.CateID.Eq(cate.ID), dao.ProductGoodsAttr.AttrType.Eq(2)).Count()
 		attrList = append(attrList, &product.AttrCate{
+			ID:        cate.ID,
 			CateName:  cate.CateName,
 			Status:    cate.Status,
 			ParamsNum: paramsNum,
@@ -69,9 +70,9 @@ func (s *AttrCateService) Update(params product.AttrCateUpdateReq) error {
 	if _, err := dao.ProductGoodsAttrCate.Where(dao.ProductGoodsAttrCate.CateName.Eq(params.CateName), dao.ProductGoodsAttrCate.ID.Neq(params.ID)).First(); err == nil {
 		return errors.New("分类名称已存在")
 	}
-	_, err := dao.ProductGoodsAttrCate.Where(dao.ProductGoodsAttrCate.ID.Eq(params.ID)).Updates(&model.ProductGoodsAttrCate{
-		CateName: params.CateName,
-		Status:   params.Status,
+	_, err := dao.ProductGoodsAttrCate.Debug().Where(dao.ProductGoodsAttrCate.ID.Eq(params.ID)).Updates(map[string]interface{}{
+		"cate_name": params.CateName,
+		"status":    params.Status,
 	})
 	return err
 }

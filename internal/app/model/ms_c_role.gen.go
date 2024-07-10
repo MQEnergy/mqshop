@@ -9,9 +9,9 @@ const TableNameCRole = "ms_c_role"
 // CRole 角色表
 type CRole struct {
 	ID        int    `gorm:"column:id;type:int;primaryKey;autoIncrement:true" json:"id"`
-	Name      string `gorm:"column:name;type:varchar(64);not null;comment:角色名称" json:"name"`                              // 角色名称
-	Desc      string `gorm:"column:desc;type:varchar(64);not null;comment:角色描述" json:"desc"`                              // 角色描述
-	Status    int8   `gorm:"column:status;type:tinyint unsigned;not null;default:1;comment:状态：1正常(默认) 2停用" json:"status"` // 状态：1正常(默认) 2停用
+	Name      string `gorm:"column:name;type:varchar(64);not null;comment:角色名称" json:"name"`                    // 角色名称
+	Desc      string `gorm:"column:desc;type:varchar(64);not null;comment:角色描述" json:"desc"`                    // 角色描述
+	Status    int8   `gorm:"column:status;type:tinyint unsigned;not null;comment:状态：1正常(默认) 0停用" json:"status"` // 状态：1正常(默认) 0停用
 	CreatedAt int    `gorm:"column:created_at;type:int;not null" json:"created_at"`
 	UpdatedAt int    `gorm:"column:updated_at;type:int;not null" json:"updated_at"`
 }

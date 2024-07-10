@@ -9,21 +9,21 @@ const TableNameMember = "ms_member"
 // Member 用户表
 type Member struct {
 	ID           int64  `gorm:"column:id;type:bigint unsigned;primaryKey;autoIncrement:true" json:"id"`
-	UUID         string `gorm:"column:uuid;type:varchar(32);not null;comment:唯一id号" json:"uuid"`                           // 唯一id号
-	Account      string `gorm:"column:account;type:varchar(64);not null;comment:账号名称" json:"account"`                      // 账号名称
-	Password     string `gorm:"column:password;type:varchar(64);not null;comment:密码" json:"password"`                      // 密码
-	Salt         string `gorm:"column:salt;type:varchar(32);not null;comment:加盐" json:"salt"`                              // 加盐
-	NickName     string `gorm:"column:nick_name;type:varchar(64);not null;comment:昵称" json:"nick_name"`                    // 昵称
-	RealName     string `gorm:"column:real_name;type:varchar(64);not null;comment:真实姓名" json:"real_name"`                  // 真实姓名
-	Avatar       string `gorm:"column:avatar;type:varchar(255);not null;comment:用户头像" json:"avatar"`                       // 用户头像
-	Sex          int8   `gorm:"column:sex;type:tinyint unsigned;not null;comment:性别 0：未设置 1：男 2：女" json:"sex"`             // 性别 0：未设置 1：男 2：女
-	Phone        string `gorm:"column:phone;type:varchar(16);not null;comment:手机号" json:"phone"`                           // 手机号
-	Birth        string `gorm:"column:birth;type:varchar(16);not null;comment:出生日期" json:"birth"`                          // 出生日期
-	RegisterIP   string `gorm:"column:register_ip;type:varchar(32);not null;comment:注册ip" json:"register_ip"`              // 注册ip
-	RegisterTime int64  `gorm:"column:register_time;type:bigint unsigned;not null;comment:注册时间" json:"register_time"`      // 注册时间
-	LoginIP      string `gorm:"column:login_ip;type:varchar(32);not null;comment:登录ip" json:"login_ip"`                    // 登录ip
-	LoginTime    int64  `gorm:"column:login_time;type:bigint unsigned;not null;comment:登录时间" json:"login_time"`            // 登录时间
-	Status       int8   `gorm:"column:status;type:tinyint unsigned;not null;default:1;comment:状态 1：正常 0：禁用" json:"status"` // 状态 1：正常 0：禁用
+	UUID         string `gorm:"column:uuid;type:varchar(32);not null;comment:唯一id号" json:"uuid"`                      // 唯一id号
+	Account      string `gorm:"column:account;type:varchar(64);not null;comment:账号名称" json:"account"`                 // 账号名称
+	Password     string `gorm:"column:password;type:varchar(64);not null;comment:密码" json:"password"`                 // 密码
+	Salt         string `gorm:"column:salt;type:varchar(32);not null;comment:加盐" json:"salt"`                         // 加盐
+	NickName     string `gorm:"column:nick_name;type:varchar(64);not null;comment:昵称" json:"nick_name"`               // 昵称
+	RealName     string `gorm:"column:real_name;type:varchar(64);not null;comment:真实姓名" json:"real_name"`             // 真实姓名
+	Avatar       string `gorm:"column:avatar;type:varchar(255);not null;comment:用户头像" json:"avatar"`                  // 用户头像
+	Sex          int8   `gorm:"column:sex;type:tinyint unsigned;not null;comment:性别 0：未设置 1：男 2：女" json:"sex"`        // 性别 0：未设置 1：男 2：女
+	Phone        string `gorm:"column:phone;type:varchar(16);not null;comment:手机号" json:"phone"`                      // 手机号
+	Birth        string `gorm:"column:birth;type:varchar(16);not null;comment:出生日期" json:"birth"`                     // 出生日期
+	RegisterIP   string `gorm:"column:register_ip;type:varchar(32);not null;comment:注册ip" json:"register_ip"`         // 注册ip
+	RegisterTime int64  `gorm:"column:register_time;type:bigint unsigned;not null;comment:注册时间" json:"register_time"` // 注册时间
+	LoginIP      string `gorm:"column:login_ip;type:varchar(32);not null;comment:登录ip" json:"login_ip"`               // 登录ip
+	LoginTime    int64  `gorm:"column:login_time;type:bigint unsigned;not null;comment:登录时间" json:"login_time"`       // 登录时间
+	Status       int8   `gorm:"column:status;type:tinyint unsigned;not null;comment:状态 1：正常 0：禁用" json:"status"`      // 状态 1：正常 0：禁用
 	CreatedAt    *int64 `gorm:"column:created_at;type:bigint unsigned" json:"created_at"`
 	UpdatedAt    *int64 `gorm:"column:updated_at;type:bigint unsigned" json:"updated_at"`
 }

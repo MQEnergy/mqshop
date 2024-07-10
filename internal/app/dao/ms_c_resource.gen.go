@@ -61,7 +61,7 @@ type cResource struct {
 	ParentID  field.Int64  // 父级ID
 	Path      field.String // ID路径 1-2-3...
 	MenuType  field.Int8   // 菜单类型 1：模块 2：操作
-	Status    field.Int8   // 状态：1正常(默认) 2停用
+	Status    field.Int8   // 状态：1正常(默认) 0停用
 	SortOrder field.Int16  // 排序
 	CreatedAt field.Int64
 	UpdatedAt field.Int64

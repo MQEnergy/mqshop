@@ -9,8 +9,8 @@ const TableNameProductGoodsAttrCate = "ms_product_goods_attr_cate"
 // ProductGoodsAttrCate 商品属性分类表
 type ProductGoodsAttrCate struct {
 	ID        int64  `gorm:"column:id;type:bigint unsigned;primaryKey;autoIncrement:true" json:"id"`
-	CateName  string `gorm:"column:cate_name;type:varchar(64);not null;comment:分类名称" json:"cate_name"`                  // 分类名称
-	Status    int8   `gorm:"column:status;type:tinyint unsigned;not null;default:1;comment:状态 1：正常 0：下架" json:"status"` // 状态 1：正常 0：下架
+	CateName  string `gorm:"column:cate_name;type:varchar(64);not null;comment:分类名称" json:"cate_name"`        // 分类名称
+	Status    int8   `gorm:"column:status;type:tinyint unsigned;not null;comment:状态 1：正常 0：下架" json:"status"` // 状态 1：正常 0：下架
 	CreatedAt int64  `gorm:"column:created_at;type:bigint unsigned;not null" json:"created_at"`
 	UpdatedAt int64  `gorm:"column:updated_at;type:bigint unsigned;not null" json:"updated_at"`
 }
