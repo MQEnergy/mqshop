@@ -98,3 +98,39 @@ func (s *AttrCateController) AttrParamsList(ctx *fiber.Ctx) error {
 	}
 	return response.SuccessJSON(ctx, "获取成功", result)
 }
+
+// AttrParamsCreate ...
+func (s *AttrCateController) AttrParamsCreate(ctx *fiber.Ctx) error {
+	var params product.AttrCateAttrParamCreateReq
+	if err := s.Validate(ctx, &params); err != nil {
+		return response.BadRequestException(ctx, err.Error())
+	}
+	if err := backend.AttrCate.AttrParamsCreate(params); err != nil {
+		return response.BadRequestException(ctx, err.Error())
+	}
+	return response.SuccessJSON(ctx, "创建成功", "")
+}
+
+// AttrParamsUpdate ...
+func (s *AttrCateController) AttrParamsUpdate(ctx *fiber.Ctx) error {
+	var params product.AttrCateAttrParamUpdateReq
+	if err := s.Validate(ctx, &params); err != nil {
+		return response.BadRequestException(ctx, err.Error())
+	}
+	if err := backend.AttrCate.AttrParamsUpdate(params); err != nil {
+		return response.BadRequestException(ctx, err.Error())
+	}
+	return response.SuccessJSON(ctx, "更新成功", "")
+}
+
+// AttrParamsDelete ...
+func (s *AttrCateController) AttrParamsDelete(ctx *fiber.Ctx) error {
+	var params product.MultiDeleteReq
+	if err := s.Validate(ctx, &params); err != nil {
+		return response.BadRequestException(ctx, err.Error())
+	}
+	if err := backend.AttrCate.AttrParamsDelete(params); err != nil {
+		return response.BadRequestException(ctx, err.Error())
+	}
+	return response.SuccessJSON(ctx, "删除成功", "")
+}

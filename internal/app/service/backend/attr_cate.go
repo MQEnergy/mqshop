@@ -113,3 +113,60 @@ func (s *AttrCateService) AttrParamsList(params product.AttrCateAttrParamListReq
 	parsePage.List = result
 	return &parsePage, nil
 }
+
+// AttrParamsCreate ...
+func (s *AttrCateService) AttrParamsCreate(params product.AttrCateAttrParamCreateReq) error {
+	if _, err := dao.ProductGoodsAttr.
+		Where(dao.ProductGoodsAttr.CateID.Eq(params.CateID), dao.ProductGoodsAttr.AttrType.Eq(params.AttrType), dao.ProductGoodsAttr.AttrName.Eq(params.AttrName)).First(); err == nil {
+		return errors.New("属性名称已存在")
+	}
+	return dao.ProductGoodsAttr.Create(&model.ProductGoodsAttr{
+		CateID:    params.CateID,
+		AttrType:  params.AttrType,
+		AttrName:  params.AttrName,
+		AttrValue: params.AttrValue,
+		InputType: params.InputType,
+		SortOrder: params.SortOrder,
+	})
+}
+
+// AttrParamsUpdate ...
+func (s *AttrCateService) AttrParamsUpdate(params product.AttrCateAttrParamUpdateReq) error {
+	if _, err := dao.ProductGoodsAttr.
+		Where(dao.ProductGoodsAttr.ID.Eq(params.ID)).First(); err != nil {
+		return errors.New("属性不存在")
+	}
+	if _, err := dao.ProductGoodsAttr.
+		Where(dao.ProductGoodsAttr.ID.Neq(params.ID),
+			dao.ProductGoodsAttr.CateID.Eq(params.CateID),
+			dao.ProductGoodsAttr.AttrType.Eq(params.AttrType),
+			dao.ProductGoodsAttr.AttrName.Eq(params.AttrName)).First(); err == nil {
+		return errors.New("属性名称已存在")
+	}
+	_, err := dao.ProductGoodsAttr.Where(dao.ProductGoodsAttr.ID.Eq(params.ID)).Updates(map[string]interface{}{
+		"cate_id":    params.CateID,
+		"attr_type":  params.AttrType,
+		"attr_name":  params.AttrName,
+		"attr_value": params.AttrValue,
+		"input_type": params.InputType,
+		"sort_order": params.SortOrder,
+	})
+	return err
+}
+
+// AttrParamsDelete ...
+func (s *AttrCateService) AttrParamsDelete(params product.MultiDeleteReq) error {
+	idList := make([]int64, 0)
+	ids := strings.Split(params.IDs, ",")
+	if len(ids) == 0 {
+		return errors.New("请选择需要删除的记录")
+	}
+	for _, id := range ids {
+		idList = append(idList, cast.ToInt64(id))
+	}
+	if _, err := dao.ProductGoodsAttr.Where(dao.ProductGoodsAttr.ID.In(idList...)).First(); err != nil {
+		return errors.New("属性不存在")
+	}
+	_, err := dao.ProductGoodsAttr.Where(dao.ProductGoodsAttr.ID.In(idList...)).Delete()
+	return err
+}
