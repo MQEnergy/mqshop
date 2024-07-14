@@ -1,6 +1,28 @@
 package product
 
-// IndexReq ...
+type ProductGoods struct {
+	ID            int64    `json:"id"`
+	UUID          string   `json:"uuid"`
+	GoodsTitle    string   `json:"goods_title"`
+	GoodsSubtitle string   `json:"goods_subtitle"`
+	CateID        int64    `json:"cate_id"`
+	CateName      string   `json:"cate_name"`
+	BrandID       int64    `json:"brand_id"`
+	BrandName     string   `json:"brand_name"`
+	AttrCateID    int64    `json:"attr_cate_id"`
+	ThumbURL      string   `json:"thumb_url"`
+	PhotoUrls     []string `json:"photo_urls"`
+	OriginPrice   float64  `json:"origin_price"`
+	PromotePrice  float64  `json:"promote_price"`
+	FinalPrice    float64  `json:"final_price"`
+	TotalStock    int      `json:"total_stock"`
+	IsHot         int8     `json:"is_hot"`
+	IsNew         int8     `json:"is_new"`
+	IsRecommend   int8     `json:"is_recommend"`
+	SortOrder     int      `json:"sort_order"`
+	Status        int8     `json:"status"`
+	CreatedAt     int64    `json:"created_at"`
+}
 type IndexReq struct {
 	Page   int    `form:"page" json:"page" validate:"required"`
 	Limit  int    `form:"limit" json:"limit" validate:"required"`

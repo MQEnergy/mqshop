@@ -8,6 +8,7 @@ import (
 	"github.com/MQEnergy/mqshop/internal/request/product"
 	"github.com/MQEnergy/mqshop/internal/vars"
 	"github.com/MQEnergy/mqshop/pkg/helper"
+	"github.com/goccy/go-json"
 )
 
 type ProductService struct {
@@ -18,14 +19,55 @@ var Product = &ProductService{}
 
 // Index ...
 func (s *ProductService) Index(params product.IndexReq) (*pagination.PaginateResp, error) {
-	parsePage := pagination.New().ParsePage(params.Page, params.Limit)
+	var (
+		productList = make([]*product.ProductGoods, 0)
+		parsePage   = pagination.New().ParsePage(params.Page, params.Limit)
+	)
+
 	productGoods, count, err := dao.ProductGoods.FindByPage(parsePage.GetOffset(), parsePage.GetLimit())
 	if err != nil {
 		return nil, err
 	}
+	for _, good := range productGoods {
+		cateName := ""
+		brandName := ""
+		photoUrls := make([]string, 0)
+		// 查找分类名称
+		if cateInfo, err := dao.ProductCategory.Select(dao.ProductCategory.CateName).Where(dao.ProductCategory.ID.Eq(good.CateID)).First(); err == nil {
+			cateName = cateInfo.CateName
+		}
+		// 查找品牌名称
+		if brandInfo, err := dao.ProductBrand.Select(dao.ProductBrand.BrandName).Where(dao.ProductBrand.ID.Eq(good.BrandID)).First(); err == nil {
+			brandName = brandInfo.BrandName
+		}
+		_ = json.Unmarshal([]byte(good.PhotoUrls), &photoUrls)
+		productList = append(productList, &product.ProductGoods{
+			ID:            good.ID,
+			UUID:          good.UUID,
+			GoodsTitle:    good.GoodsTitle,
+			GoodsSubtitle: good.GoodsSubtitle,
+			CateID:        good.CateID,
+			CateName:      cateName,
+			BrandID:       good.BrandID,
+			BrandName:     brandName,
+			AttrCateID:    good.AttrCateID,
+			ThumbURL:      good.ThumbURL,
+			PhotoUrls:     photoUrls,
+			OriginPrice:   good.OriginPrice,
+			PromotePrice:  good.PromotePrice,
+			FinalPrice:    good.FinalPrice,
+			TotalStock:    good.TotalStock,
+			IsHot:         good.IsHot,
+			IsNew:         good.IsNew,
+			IsRecommend:   good.IsRecommend,
+			SortOrder:     good.SortOrder,
+			Status:        good.Status,
+			CreatedAt:     good.CreatedAt,
+		})
+	}
 	parsePage.Total = count
 	parsePage.GetLastPage()
-	parsePage.List = productGoods
+	parsePage.List = productList
 	return &parsePage, nil
 }
 
