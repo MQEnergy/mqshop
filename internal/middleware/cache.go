@@ -31,7 +31,7 @@ func CacheMiddleware() fiber.Handler {
 			}
 			return utils.CopyString(helper.GenerateHash(keyG))
 		},
-		Expiration:   60 * time.Second,
+		Expiration:   30 * time.Second,
 		CacheControl: true, // enables client side caching if set to true
 		Methods:      []string{fiber.MethodGet, fiber.MethodHead, fiber.MethodPost},
 	})

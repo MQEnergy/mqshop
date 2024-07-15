@@ -55,6 +55,7 @@ func (s *AttrCateService) Create(params product.AttrCateCreateReq) error {
 	if _, err := dao.ProductGoodsAttrCate.Where(dao.ProductGoodsAttrCate.CateName.Eq(params.CateName)).First(); err == nil {
 		return errors.New("分类名称已存在")
 	}
+
 	return dao.ProductGoodsAttrCate.Create(&model.ProductGoodsAttrCate{
 		CateName: params.CateName,
 		Status:   params.Status,
@@ -100,9 +101,7 @@ func (s *AttrCateService) List() ([]*model.ProductGoodsAttrCate, error) {
 
 // AttrParamsList ...
 func (s *AttrCateService) AttrParamsList(params product.AttrCateAttrParamListReq) (*pagination.PaginateResp, error) {
-	var (
-		parsePage = pagination.New().ParsePage(params.Page, params.Limit)
-	)
+	parsePage := pagination.New().ParsePage(params.Page, params.Limit)
 	result, count, err := dao.ProductGoodsAttr.Where(dao.ProductGoodsAttr.CateID.Eq(params.ID), dao.ProductGoodsAttr.AttrType.Eq(params.AttrType)).
 		FindByPage(parsePage.GetOffset(), parsePage.GetLimit())
 	if err != nil {
