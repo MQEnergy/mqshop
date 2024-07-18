@@ -26,9 +26,8 @@ func (s *BrandService) Index(params product.IndexReq) (*pagination.PaginateResp,
 	if err != nil {
 		return nil, err
 	}
-	parsePage.Total = count
-	parsePage.GetLastPage()
-	parsePage.List = productBrands
+
+	parsePage.SetCount(count).SetList(productBrands).GetLastPage()
 	return &parsePage, nil
 }
 

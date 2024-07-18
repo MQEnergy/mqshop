@@ -45,9 +45,7 @@ func (s *RoleService) Index(reqParams role.IndexReq) (*pagination.PaginateResp, 
 	if err != nil {
 		return nil, err
 	}
-	parsePage.Total = count
-	parsePage.GetLastPage()
-	parsePage.List = roleList
+	parsePage.SetCount(count).SetList(roleList).GetLastPage()
 	return &parsePage, nil
 }
 

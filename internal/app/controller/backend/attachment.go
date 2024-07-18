@@ -2,6 +2,7 @@ package backend
 
 import (
 	"github.com/MQEnergy/mqshop/internal/app/controller"
+	"github.com/MQEnergy/mqshop/internal/app/service/backend"
 	"github.com/MQEnergy/mqshop/internal/request/attachment"
 	"github.com/MQEnergy/mqshop/internal/vars"
 	"github.com/MQEnergy/mqshop/pkg/response"
@@ -14,6 +15,19 @@ type AttachmentController struct {
 }
 
 var Attachment = &AttachmentController{}
+
+// Index ...
+func (c *AttachmentController) Index(ctx *fiber.Ctx) error {
+	var params attachment.IndexReq
+	if err := c.Validate(ctx, &params); err != nil {
+		return response.BadRequestException(ctx, err.Error())
+	}
+	attachmentList, err := backend.Attachment.Index(params)
+	if err != nil {
+		return response.BadRequestException(ctx, err.Error())
+	}
+	return response.SuccessJSON(ctx, "", attachmentList)
+}
 
 // Upload 上传资源
 func (c *AttachmentController) Upload(ctx *fiber.Ctx) error {

@@ -23,8 +23,15 @@ func InitBackendGroup(r fiber.Router, handles ...fiber.Handler) {
 		router.Post("/auth/change-pass", backend.Auth.ChangePass)
 		// 上传附件
 		router.Post("/attachment/upload", backend.Attachment.Upload)
+		router.Get("/attachment/index", backend.Attachment.Index)
 		// 忘记密码
 		router.Post("/auth/forget-pass", backend.Auth.ForgetPass)
+		// 省市区
+		router.Get("/region/province", backend.Region.Province)
+		router.Get("/region/city", backend.Region.City)
+		router.Get("/region/area", backend.Region.Area)
+		router.Get("/region/street", backend.Region.Street)
+		router.Get("/region/village", backend.Region.Village)
 
 		// ============================== RBAC ==============================
 		// ============================== 角色 ==============================

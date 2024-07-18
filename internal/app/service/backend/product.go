@@ -65,9 +65,7 @@ func (s *ProductService) Index(params product.IndexReq) (*pagination.PaginateRes
 			CreatedAt:     good.CreatedAt,
 		})
 	}
-	parsePage.Total = count
-	parsePage.GetLastPage()
-	parsePage.List = productList
+	parsePage.SetCount(count).SetList(productList).GetLastPage()
 	return &parsePage, nil
 }
 

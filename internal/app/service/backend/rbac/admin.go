@@ -71,9 +71,7 @@ func (s *AdminService) Index(reqParams admin.IndexReq) (*pagination.PaginateResp
 			}
 		}
 	}
-	parsePage.Total = count
-	parsePage.GetLastPage()
-	parsePage.List = cnAdminList
+	parsePage.SetCount(count).SetList(cnAdminList).GetLastPage()
 	return &parsePage, nil
 }
 

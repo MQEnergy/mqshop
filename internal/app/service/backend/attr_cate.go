@@ -39,9 +39,7 @@ func (s *AttrCateService) Index(params product.IndexReq) (*pagination.PaginateRe
 			CreatedAt: cate.CreatedAt,
 		})
 	}
-	parsePage.Total = count
-	parsePage.GetLastPage()
-	parsePage.List = attrList
+	parsePage.SetCount(count).SetList(attrList).GetLastPage()
 	return &parsePage, nil
 }
 
@@ -107,9 +105,8 @@ func (s *AttrCateService) AttrParamsList(params product.AttrCateAttrParamListReq
 	if err != nil {
 		return nil, err
 	}
-	parsePage.Total = count
-	parsePage.GetLastPage()
-	parsePage.List = result
+
+	parsePage.SetCount(count).SetList(result).GetLastPage()
 	return &parsePage, nil
 }
 

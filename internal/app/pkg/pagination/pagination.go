@@ -58,3 +58,15 @@ func (pb *PaginateResp) GetLastPage() int {
 	}
 	return pb.LastPage
 }
+
+// SetList 设置列表数据
+func (pb *PaginateResp) SetList(list any) *PaginateResp {
+	pb.List = list
+	return pb
+}
+
+// SetCount 设置总数
+func (pb *PaginateResp) SetCount(count int64) *PaginateResp {
+	pb.Total = count
+	return pb
+}

@@ -23,6 +23,7 @@ type ProductGoods struct {
 	Status        int8     `json:"status"`
 	CreatedAt     int64    `json:"created_at"`
 }
+
 type IndexReq struct {
 	Page   int    `form:"page" json:"page" validate:"required"`
 	Limit  int    `form:"limit" json:"limit" validate:"required"`
