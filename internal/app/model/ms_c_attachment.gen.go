@@ -14,12 +14,12 @@ type CAttachment struct {
 	AttachOriginName string `gorm:"column:attach_origin_name;type:varchar(255);not null;comment:附件原名称" json:"attach_origin_name"`               // 附件原名称
 	AttachURL        string `gorm:"column:attach_url;type:varchar(255);not null;comment:附件地址" json:"attach_url"`                                // 附件地址
 	AttachType       int8   `gorm:"column:attach_type;type:tinyint unsigned;not null;default:1;comment:附件类型 1：图片 2：视频 3：文件" json:"attach_type"` // 附件类型 1：图片 2：视频 3：文件
-	AttachMinetype   string `gorm:"column:attach_minetype;type:varchar(16);not null;comment:附件mine类型" json:"attach_minetype"`                   // 附件mine类型
+	AttachMimetype   string `gorm:"column:attach_mimetype;type:varchar(16);not null;comment:附件mime类型" json:"attach_mimetype"`                   // 附件mime类型
 	AttachExtension  string `gorm:"column:attach_extension;type:varchar(16);not null;comment:附件后缀名" json:"attach_extension"`                    // 附件后缀名
 	AttachSize       string `gorm:"column:attach_size;type:varchar(32);not null;comment:附件大小" json:"attach_size"`                               // 附件大小
 	Status           int8   `gorm:"column:status;type:tinyint unsigned;not null;comment:状态 1：正常 0：删除" json:"status"`                            // 状态 1：正常 0：删除
-	CreatedAt        *int64 `gorm:"column:created_at;type:bigint unsigned" json:"created_at"`
-	UpdatedAt        *int64 `gorm:"column:updated_at;type:bigint unsigned" json:"updated_at"`
+	CreatedAt        int64  `gorm:"column:created_at;type:bigint unsigned;not null" json:"created_at"`
+	UpdatedAt        int64  `gorm:"column:updated_at;type:bigint unsigned;not null" json:"updated_at"`
 }
 
 // TableName CAttachment's table name

@@ -1,6 +1,7 @@
 package backend
 
 import (
+	"fmt"
 	"github.com/MQEnergy/mqshop/internal/app/controller"
 	"github.com/MQEnergy/mqshop/internal/app/service/backend"
 	"github.com/MQEnergy/mqshop/internal/request/attachment"
@@ -22,6 +23,7 @@ func (c *AttachmentController) Index(ctx *fiber.Ctx) error {
 	if err := c.Validate(ctx, &params); err != nil {
 		return response.BadRequestException(ctx, err.Error())
 	}
+	fmt.Println(params)
 	attachmentList, err := backend.Attachment.Index(params)
 	if err != nil {
 		return response.BadRequestException(ctx, err.Error())
@@ -42,6 +44,10 @@ func (c *AttachmentController) Upload(ctx *fiber.Ctx) error {
 	reqParams.FileName = fileName
 	fileHeader, err := upload.New(0, []string{}).UploadToLocal(vars.Config, reqParams.FileName, reqParams.FilePath)
 	if err != nil {
+		return response.BadRequestException(ctx, err.Error())
+	}
+	userId := ctx.GetRespHeader("uid")
+	if err := backend.Attachment.Create(userId, fileHeader); err != nil {
 		return response.BadRequestException(ctx, err.Error())
 	}
 	return response.SuccessJSON(ctx, "", fileHeader)

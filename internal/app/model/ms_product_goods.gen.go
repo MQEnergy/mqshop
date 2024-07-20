@@ -23,7 +23,7 @@ type ProductGoods struct {
 	TotalStock    int     `gorm:"column:total_stock;type:int;not null;comment:总库存" json:"total_stock"`                              // 总库存
 	IsHot         int8    `gorm:"column:is_hot;type:tinyint unsigned;not null;comment:是否热门 1：热门 0：正常" json:"is_hot"`                // 是否热门 1：热门 0：正常
 	IsNew         int8    `gorm:"column:is_new;type:tinyint unsigned;not null;comment:是否新品 1：新品 0：正常" json:"is_new"`                // 是否新品 1：新品 0：正常
-	IsRecommend   int8    `gorm:"column:is_recommend;type:tinyint unsigned;not null;comment:是否推荐 1：热门 0：正常" json:"is_recommend"`    // 是否推荐 1：推荐 0：正常
+	IsRecommend   int8    `gorm:"column:is_recommend;type:tinyint unsigned;not null;comment:是否推荐 1：热门 0：正常" json:"is_recommend"`    // 是否推荐 1：热门 0：正常
 	SortOrder     int     `gorm:"column:sort_order;type:int unsigned;not null;default:50;comment:排序" json:"sort_order"`             // 排序
 	Status        int8    `gorm:"column:status;type:tinyint unsigned;not null;comment:状态 1：正常 0：下架" json:"status"`                  // 状态 1：正常 0：下架
 	CreatedAt     int64   `gorm:"column:created_at;type:bigint unsigned;not null" json:"created_at"`

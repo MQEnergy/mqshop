@@ -33,7 +33,7 @@ func newCAttachment(db *gorm.DB, opts ...gen.DOOption) cAttachment {
 	_cAttachment.AttachOriginName = field.NewString(tableName, "attach_origin_name")
 	_cAttachment.AttachURL = field.NewString(tableName, "attach_url")
 	_cAttachment.AttachType = field.NewInt8(tableName, "attach_type")
-	_cAttachment.AttachMinetype = field.NewString(tableName, "attach_minetype")
+	_cAttachment.AttachMimetype = field.NewString(tableName, "attach_mimetype")
 	_cAttachment.AttachExtension = field.NewString(tableName, "attach_extension")
 	_cAttachment.AttachSize = field.NewString(tableName, "attach_size")
 	_cAttachment.Status = field.NewInt8(tableName, "status")
@@ -56,7 +56,7 @@ type cAttachment struct {
 	AttachOriginName field.String // 附件原名称
 	AttachURL        field.String // 附件地址
 	AttachType       field.Int8   // 附件类型 1：图片 2：视频 3：文件
-	AttachMinetype   field.String // 附件mine类型
+	AttachMimetype   field.String // 附件mime类型
 	AttachExtension  field.String // 附件后缀名
 	AttachSize       field.String // 附件大小
 	Status           field.Int8   // 状态 1：正常 0：删除
@@ -84,7 +84,7 @@ func (c *cAttachment) updateTableName(table string) *cAttachment {
 	c.AttachOriginName = field.NewString(table, "attach_origin_name")
 	c.AttachURL = field.NewString(table, "attach_url")
 	c.AttachType = field.NewInt8(table, "attach_type")
-	c.AttachMinetype = field.NewString(table, "attach_minetype")
+	c.AttachMimetype = field.NewString(table, "attach_mimetype")
 	c.AttachExtension = field.NewString(table, "attach_extension")
 	c.AttachSize = field.NewString(table, "attach_size")
 	c.Status = field.NewInt8(table, "status")
@@ -113,7 +113,7 @@ func (c *cAttachment) fillFieldMap() {
 	c.fieldMap["attach_origin_name"] = c.AttachOriginName
 	c.fieldMap["attach_url"] = c.AttachURL
 	c.fieldMap["attach_type"] = c.AttachType
-	c.fieldMap["attach_minetype"] = c.AttachMinetype
+	c.fieldMap["attach_mimetype"] = c.AttachMimetype
 	c.fieldMap["attach_extension"] = c.AttachExtension
 	c.fieldMap["attach_size"] = c.AttachSize
 	c.fieldMap["status"] = c.Status
