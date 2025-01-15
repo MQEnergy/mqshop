@@ -3,6 +3,7 @@ package rbac
 import (
 	"context"
 	"errors"
+	"fmt"
 	"log/slog"
 	"strconv"
 	"strings"
@@ -65,12 +66,7 @@ func (s *AuthService) Login(ctx *fiber.Ctx, reqParams admin.LoginReq) (fiber.Map
 	if err != nil {
 		return nil, errors.New("登录失败")
 	}
-	if err := vars.Redis.Set(
-		context.Background(),
-		sredis.BuildAuthRedisKey(adminInfo.UUID),
-		token,
-		vars.Config.GetDuration("jwt.expire")*time.Second,
-	).Err(); err != nil {
+	if err := sredis.Set(context.Background(), fmt.Sprintf(sredis.AuthFmt, adminInfo.UUID), token).Err(); err != nil {
 		return nil, errors.New("用户信息持久化失败")
 	}
 	if helper.InAnySlice[string](strings.Split(adminInfo.RoleIds, ","), vars.Config.GetString("server.superRoleId")) {
@@ -101,10 +97,10 @@ func (s *AuthService) Login(ctx *fiber.Ctx, reqParams admin.LoginReq) (fiber.Map
 // @return error
 // @author cx
 func (s *AuthService) Logout(uuid string) error {
-	_, err := vars.Redis.Del(context.Background(), sredis.BuildAuthRedisKey(uuid)).Result()
-	if err != nil {
-		return errors.New("会话过期，请重新登录")
-	}
+	// 删除auth
+	sredis.Del(context.Background(), fmt.Sprintf(sredis.AuthFmt, uuid))
+	// 删除用户信息
+	sredis.Del(context.Background(), fmt.Sprintf(sredis.PermsFmt, uuid))
 	return nil
 }
 

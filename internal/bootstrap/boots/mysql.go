@@ -3,6 +3,7 @@ package boots
 import (
 	"log"
 	"log/slog"
+	"net/url"
 	"time"
 
 	"github.com/MQEnergy/mqshop/internal/vars"
@@ -53,9 +54,9 @@ func InitMultiMysql() error {
 func handleMysql(sourceMaps map[string]interface{}) (*database.Database, error) {
 	fileName := sourceMaps["filename"].(string)
 	logLevel := sourceMaps["loglevel"].(int)
-	masterDsn := sourceMaps["master"].(string)
+	masterDsn, _ := url.QueryUnescape(sourceMaps["master"].(string))
 	prefix := sourceMaps["prefix"].(string)
-	seperation := sourceMaps["seperation"].(bool)
+	separation := sourceMaps["separation"].(bool)
 	slaves := sourceMaps["slave"].([]interface{})
 
 	dbContainer := func(dns string) *mysql.Mysql {
@@ -93,11 +94,12 @@ func handleMysql(sourceMaps map[string]interface{}) (*database.Database, error) 
 	if err != nil {
 		return nil, err
 	}
-	// write read seperate
-	if seperation {
+	// write read separate
+	if separation {
 		var replicas []gorm.Dialector
 		for _, slave := range slaves {
-			replicas = append(replicas, dbContainer(slave.(string)).Instance())
+			slaveDsn, _ := url.QueryUnescape(slave.(string))
+			replicas = append(replicas, dbContainer(slaveDsn).Instance())
 		}
 		if err := d.WithSlaveDB([]gorm.Dialector{dbContainer(masterDsn).Instance()}, replicas); err != nil {
 			return nil, err

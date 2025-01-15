@@ -2,6 +2,9 @@ package middleware
 
 import (
 	"context"
+	"fmt"
+	"github.com/MQEnergy/mqshop/internal/app/service/sredis"
+	"log/slog"
 	"strings"
 
 	"github.com/MQEnergy/mqshop/internal/vars"
@@ -20,6 +23,7 @@ func AuthMiddleware() fiber.Handler {
 		AuthScheme:  vars.Config.GetString("jwt.authScheme"),
 		SigningKey:  jwtware.SigningKey{Key: []byte(vars.Config.GetString("jwt.secret"))},
 		ErrorHandler: func(c *fiber.Ctx, err error) error {
+			slog.Error("会话已过期，请重新登录", "err", err.Error())
 			return response.UnauthorizedException(c, "会话已过期，请重新登录 err: "+err.Error())
 		},
 		SuccessHandler: func(ctx *fiber.Ctx) error {
@@ -30,7 +34,7 @@ func AuthMiddleware() fiber.Handler {
 						ctx.Set("uid", cast.ToString(sub["id"]))
 						ctx.Set("role_ids", cast.ToString(sub["role_ids"]))
 						// 验证token是否与redis中的一致
-						token, err := vars.Redis.Get(context.Background(), vars.Config.GetString("redis.prefix")+cast.ToString(sub["uuid"])).Result()
+						token, err := sredis.Get(context.Background(), fmt.Sprintf(sredis.AuthFmt, cast.ToString(sub["uuid"]))).Result()
 						if err != nil {
 							return response.ForbiddenException(ctx, "会话过期，请重新登录")
 						}

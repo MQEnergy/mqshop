@@ -19,7 +19,7 @@ type CreateOrUpdateReq struct {
 	ParentId   uint64 `form:"parent_id" json:"parent_id"`                     // 父级ID
 	Path       string `form:"path" json:"path"`                               // ID路径 1-2-3...
 	MenuType   int8   `form:"menu_type" json:"menu_type" validate:"required"` // 菜单类型 1：模块 2：操作
-	Status     uint8  `form:"status" json:"status" validate:"required"`       // 状态：1正常(默认) 0停用
+	Status     uint8  `form:"status" json:"status"`                           // 状态：1正常(默认) 0停用
 	SortOrder  uint16 `form:"sort_order" json:"sort_order"`                   // 排序
 	ParentPath string `form:"parent_path" json:"parent_path"`                 // 父菜单的path路径
 }

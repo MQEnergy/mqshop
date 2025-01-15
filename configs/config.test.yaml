@@ -3,14 +3,14 @@ server:
   defaultPageSize: 10 # 默认分页条数
   maxPageSize: 500    # 最大分页条数
   fileUploadPath: 'upload' # 文件上传路径
-  fileHostUrl: 'http://127.0.0.1:9527/' # 文件访问域名
+  fileHostUrl: 'http://mqshop-backend.yippai.com/' # 文件访问域名
   whiteList: '*' # 白名单
   originList: '*' # cors地址列表以逗号相隔 默认* 按需配置如：https://example1.com,https://example2.com,
   superRoleId: 1 # 超级管理员角色ID
 jwt:
   expire: 864000   # token过期时间 单位：s
   issuer: 'mqshop'
-  secret: '3jQSRZXeXzr09hq0GrZuL9Dgtk2XV9Ax'
+  secret: '3jQSRZXeXzr09hq0G1ZuL9Dgtk2XV9Ax'
   authScheme: 'Bearer'
   tokenLookup: 'header:Authorization' # Possible values: "header:<name>"、"query:<name>"、"param:<name>"、"cookie:<name>"
 log:
@@ -31,13 +31,13 @@ database:
     maxIdleTime: 0 # 设置连接池中保持空闲的最长时间（秒）默认是0 意味着连接池中的连接将保持打开状态
     sources: # 数据库配置 需要配置多个数据库 复制default以下模板
       default: # 默认数据库 (此名称切勿修改)
-        seperation: false # 配置是否使用读写分离，方便改配置切换
+        separation: false # 配置是否使用读写分离，方便改配置切换
         fileName: 'default-sql' # 日志文件名称 【需修改】
         logLevel: 1 # 日志模式 1:slient 2:error 3:warn 4:info
         prefix: "ms_"
-        master: 'root:123456@tcp(127.0.0.1:3306)/mqshop?charset=utf8mb4&parseTime=True&loc=Local' # 主库链接地址【需修改】
+        master: 'root:%40K%216Rggurg6JH%24vV@tcp(127.0.0.1:3306)/o2o?charset=utf8mb4&parseTime=True&loc=Local' # dyq
         slave:
-          - 'root:123456@tcp(127.0.0.1:3306)/mqshop?charset=utf8mb4&parseTime=True&loc=Local' # 从库链接地址  【需修改】
+          - 'root:%40K%216Rggurg6JH%24vV@tcp(127.0.0.1:3306)/o2o?charset=utf8mb4&parseTime=True&loc=Local' # dyq 47.100.59.183
   mongo:
     enable: false
     uri:
@@ -47,7 +47,7 @@ redis:
   enabled: true # 是否启用redis
   host: '127.0.0.1'
   port: '6379'
-  password: ''
+  password: '123456'
   dbNum: 0
   prefix: 'mqshop:' # 登录用户存入redis键名的前缀
   poolSize: 20
