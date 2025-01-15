@@ -10,7 +10,7 @@ server:
 jwt:
   expire: 864000   # token过期时间 单位：s
   issuer: 'mqshop'
-  secret: '3jQSRZXeXzr09hq0G1ZuL9Dgtk2XV9Ax'
+  secret: '3jQSRZXeXzr09hq0GrZuL9Dgtk2XV9Ax'
   authScheme: 'Bearer'
   tokenLookup: 'header:Authorization' # Possible values: "header:<name>"、"query:<name>"、"param:<name>"、"cookie:<name>"
 log:
