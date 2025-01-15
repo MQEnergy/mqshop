@@ -3,7 +3,7 @@ server:
   defaultPageSize: 10 # 默认分页条数
   maxPageSize: 500    # 最大分页条数
   fileUploadPath: 'upload' # 文件上传路径
-  fileHostUrl: 'http://mqshop-backend.yippai.com/' # 文件访问域名
+  fileHostUrl: 'https://mqshop-backend.yippai.com/' # 文件访问域名
   whiteList: '*' # 白名单
   originList: '*' # cors地址列表以逗号相隔 默认* 按需配置如：https://example1.com,https://example2.com,
   superRoleId: 1 # 超级管理员角色ID
@@ -35,9 +35,9 @@ database:
         fileName: 'default-sql' # 日志文件名称 【需修改】
         logLevel: 1 # 日志模式 1:slient 2:error 3:warn 4:info
         prefix: "ms_"
-        master: 'root:%40K%216Rggurg6JH%24vV@tcp(127.0.0.1:3306)/o2o?charset=utf8mb4&parseTime=True&loc=Local' # dyq
+        master: 'root:%40K%216Rggurg6JH%24vV@tcp(127.0.0.1:3306)/mqshop?charset=utf8mb4&parseTime=True&loc=Local' # dyq
         slave:
-          - 'root:%40K%216Rggurg6JH%24vV@tcp(127.0.0.1:3306)/o2o?charset=utf8mb4&parseTime=True&loc=Local' # dyq 47.100.59.183
+          - 'root:%40K%216Rggurg6JH%24vV@tcp(127.0.0.1:3306)/mqshop?charset=utf8mb4&parseTime=True&loc=Local' # dyq 47.100.59.183
   mongo:
     enable: false
     uri:
